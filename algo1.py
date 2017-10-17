@@ -16,8 +16,6 @@ def emptySetGenerate(password, n, outputFile):
 	toPrint = toPrint[:len(toPrint)-2]
 	outputFile.write(toPrint +"\n")
 	
-def part3():
-	k
 
 
 #python your_program.py n input_filename output_filename
