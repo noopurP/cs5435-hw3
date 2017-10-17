@@ -16,6 +16,7 @@ def emptySetGenerate(password, n, outputFile):
 	toPrint = toPrint[:len(toPrint)-2]
 	outputFile.write(toPrint +"\n")
 	
+def part3():
 	k
 
 
