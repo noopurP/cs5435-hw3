@@ -10,22 +10,23 @@ def generateDates():
 
 # Generate years from 1900 to 2018
 def generateYears():
-    return range(1900, 2018)
+    return list(range(1900, 2018))
 
 # Adding date to the end
 def addDate(password, dates):
-    date = random.choice(dates)
+    date = dates.pop(random.randint(0,len(dates)-1))
     return password + str(date)
 
 # Adding year to the end
 def addYear(password, years):
-    year = random.choice(years)
+    year = years.pop(random.randint(0,len(years)-1))
     return password + str(year)
 
 # Adding random digits
 def addRandom(password):
-    digits = [random.choice(range(10)) for _ in range(4)]
+    digits = [random.choice(range(10)) for _ in range(random.randint(1,4))]
     return password + "".join(map(str, digits))
+ 
 # Changing leet characters
 
 # Randomly changing first/last character case
@@ -33,7 +34,6 @@ def flipCase(password):
     tmp = random.choice(range(10))
     # change the last char
     password = list(password)
-    print tmp
     if tmp > 4:
         if password[-1] in string.digits:
             return "".join(password)
@@ -51,16 +51,18 @@ def flipCase(password):
     return "".join(password)
 
 # Adding special characters between letter/digit
+
 # Stripping digits off
 def stripDigits(password):
-    password = list(password)
-    while password[-1] in string.digits:
-        password.pop()
+    if not password.isdigit():
+       password = list(password)
+       while password[-1] in string.digits:
+           password.pop()
     return "".join(password)
 
 # Adding up to 3 random chars at the password end
 def addRandomChar(password):
-    randomChar = [random.choice(string.ascii_letters+string.digits) for _ in range(3)]
+    randomChar = [random.choice(string.ascii_letters+string.digits) for _ in range(random.randint(1,3))]
     return password + "".join(randomChar)
 # Reverse if password is digits
 def reverse(password):
