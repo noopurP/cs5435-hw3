@@ -95,4 +95,3 @@ def removeVowels(password):
 # dates = generateDates()
 # password = "iloves&&pongebob1234"
 # res = addDate(password, dates)
-print res
