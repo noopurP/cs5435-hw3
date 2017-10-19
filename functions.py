@@ -28,6 +28,33 @@ def addRandom(password):
     return password + "".join(map(str, digits))
  
 # Changing leet characters
+def leetChar(password):
+    leetchar = { "a":"@",
+                 "A": "@",
+                 "b":"8",
+                 "B":"8",
+                 "c":"(",
+                 "C":"(",
+                 "e":"3",
+                 "E":"3",
+                 "i":"!",
+                 "I":"!",
+                 "o":"0",
+                 "O":"0",
+                 "s":"$",
+                 "S":"$",
+                 "w":"VV",
+                 "W":"VV",
+                 }
+    password = list(password)
+    leet = []
+    for i in range(len(password)):
+        if password[i] in leetchar:
+           leet.append(i)
+    if len(leet) > 0:
+       leetIdx = random.choice(leet)
+       password[leetIdx] = leetchar.get(password[leetIdx])
+    return "".join(password)
 
 # Randomly changing first/last character case
 def flipCase(password):
@@ -51,6 +78,21 @@ def flipCase(password):
     return "".join(password)
 
 # Adding special characters between letter/digit
+def addSpecialChar(password):
+   tmp = list(password)
+   prevLetter = False
+   idx = -1
+   for i in range(len(password)):
+      if tmp[i].isdigit():
+         if prevLetter:
+            idx = i
+         prevLetter = False
+      else:
+         prevLetter = True
+   if idx > 0:
+      return password[:idx] + '-' + password[idx:]
+   else:
+      return password
 
 # Stripping digits off
 def stripDigits(password):
