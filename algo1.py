@@ -1,3 +1,5 @@
+#python version: 2.6
+
 import sys
 import random
 import re
