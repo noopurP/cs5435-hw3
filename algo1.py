@@ -20,8 +20,8 @@ def part1Algo(password, n, outputFile):
       lastDigit = len(password)-re.search('\d',password[::-1]).start(0)-1
    # Add real password to honeywords
    honeywords.append(password)
-   # If n is less than 10 randomly alter the last digit in the password
-   if not isSeq and n < 10:
+   # If n is less than or equal to 10 randomly alter the last digit in the password
+   if not isSeq and n <= 10:
       randDigit = [0,1,2,3,4,5,6,7,8,9]
       if containsDigits:
          randDigit.pop(int(password[lastDigit]))
@@ -39,63 +39,69 @@ def part1Algo(password, n, outputFile):
          s.remove(6)
       if not isSeq:
          s.remove(8)
-      # Delete these lines later
-      s.remove(3)
-      s.remove(5)
       while len(honeywords) < n:
          strat = random.choice(s)
          # Add date-month
          if strat == 0:
             if dates:
                honeywords.append(f.addDate(password,dates))
+            else:
+               s.remove(0)
          # Add year
          elif strat == 1:
             if years:
                honeywords.append(f.addYear(password,years))
+            else:
+               s.remove(1)
          # Add random digits
          elif strat == 2:
             temp = f.addRandom(password)
-            if temp not in honeywords:
+            if temp != '' and temp not in honeywords:
                honeywords.append(temp)
          # Change leet characters
          elif strat == 3:
-            pass
+            temp = f.leetChar(password)
+            if temp != '' and temp not in honeywords:
+               honeywords.append(temp)
          # Randomly change first/last character case
          elif strat == 4:
             temp = f.flipCase(password)
-            if temp not in honeywords:
+            if temp != '' and temp not in honeywords:
                honeywords.append(temp)
          # Add special character between letter/digit
          elif strat == 5:
-            pass
+            temp = f.addSpecialChar(password)
+            s.remove(5)
+            if temp != '' and temp not in honeywords:
+               honeywords.append(temp)
          # Take digits off
          elif strat == 6:
             temp = f.stripDigits(password)
             s.remove(6)
-            if temp not in honeywords:
+            if temp != '' and temp not in honeywords:
                honeywords.append(temp)
          # Adding up to 3 random characters
          elif strat == 7:
             temp = f.addRandomChar(password)
-            if temp not in honeywords:
+            if temp != '' and temp not in honeywords:
                honeywords.append(temp)
          # Reverse the password if its sequential digits
          elif strat == 8:
             temp = f.reverse(password)
             s.remove(8)
-            if temp not in honeywords:
+            if temp != '' and temp not in honeywords:
                honeywords.append(temp)
          # Removing any character
          elif strat == 9:
             temp = f.removeChar(password)
             s.remove(9)
-            if temp not in honeywords:
+            if temp != '' and temp not in honeywords:
                honeywords.append(temp)
          # Removing vowels
          else:
             temp = f.removeVowels(password)
             s.remove(10)
-            if temp not in honeywords:
+            if temp != '' and temp not in honeywords:
                honeywords.append(temp)
    #shuffle the honeywords
    random.shuffle(honeywords)
