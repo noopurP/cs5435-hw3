@@ -115,12 +115,9 @@ def reverse(password):
 
 # Removing any character
 def removeChar(password):
-    res = []
-    for i in range(len(password)):
-        if password[i] in string.ascii_letters:
-            continue
-        res.append(password[i])
-    return "".join(res)
+    pos = random.randint(0,len(password)-1)
+    password = password[:pos] + password[pos+1:]
+    return password
 
 # Removing vowels
 def removeVowels(password):
