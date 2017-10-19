@@ -37,6 +37,16 @@ def createWindow(password, n, myDataArray):
 			break
 	start = passwordLocation - realPassIndex
 	stop = passwordLocation + n - realPassIndex
+	if start <0:
+		diff = start *-1
+		start =0
+		stop = stop + start	
+	if stop >= len(myDataArray):
+		diff = len(myDataArray) - stop +1
+		stop = stop - diff
+		start = start - diff
+
+
 	for i in range(start, stop):
 		if i == realPassIndex:
 			honeywords.append(password)
@@ -61,8 +71,8 @@ def part1Algo(password, n):
       lastDigit = len(password)-re.search('\d',password[::-1]).start(0)-1
    # Add real password to honeywords
    honeywords.append(password)
-   # If n is less than 10 randomly alter the last digit in the password
-   if not isSeq and n < 10:
+   # If n is less than or equal to 10 randomly alter the last digit in the password
+   if not isSeq and n <= 10:
       randDigit = [0,1,2,3,4,5,6,7,8,9]
       if containsDigits:
          randDigit.pop(int(password[lastDigit]))
@@ -163,13 +173,18 @@ def main():
 	f = open("rockyou-withcount.txt","r")
 	allLines = f.readlines()
 	for i in range(len(allLines)):
-		thisArray = allLines[i].split(' ')
-		password = thisArray[len(thisArray)-1].strip()
+		thisLine = allLines[i].strip()
+		thisArray = thisLine.split(' ')
+		password = ""
+		for j in range(1, len(thisArray)):
+			password = password+thisArray[j].strip()
 		myDataSet.add(password)
 		myDataArray.append(password)
 		if i <100:
 			topOneHundred.add(password)
 	#read each password from the input file and call function on it to generate honey
+	print len(myDataArray)
+	print len(myDataSet)
 	while True:
 		password = inputFile.readline()
 		if not password: break
@@ -178,3 +193,17 @@ def main():
 
 
 if __name__ == "__main__": main()
+
+
+# thisArray = allLines[i].split(' ')
+		# for j in thisArray:
+		# 	if j.strip() != '':
+
+		# 	if 
+		# password = ""
+		# for j in (7, len(thisArray)):
+		# 	password = password+ thisArray[j].strip()
+		#print thisArray
+		
+		#password = thisArray[len(thisArray)-1].strip()
+		#if password in myDataSet:

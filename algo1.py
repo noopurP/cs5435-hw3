@@ -20,8 +20,8 @@ def part1Algo(password, n, outputFile):
       lastDigit = len(password)-re.search('\d',password[::-1]).start(0)-1
    # Add real password to honeywords
    honeywords.append(password)
-   # If n is less than 10 randomly alter the last digit in the password
-   if not isSeq and n < 10:
+   # If n is less than or equal to 10 randomly alter the last digit in the password
+   if not isSeq and n <= 10:
       randDigit = [0,1,2,3,4,5,6,7,8,9]
       if containsDigits:
          randDigit.pop(int(password[lastDigit]))
