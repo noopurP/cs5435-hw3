@@ -130,7 +130,11 @@ def part2Algo(password, n, outputFile, myDataSet, topOneHundred):
     honeywords = []
     if password in topOneHundred:
         if n > 100: # Building clusters
-            honeywords.append(password)
+            for topWord in topOneHundred: #put all top onehundred in honeywords
+              honeywords.append(topOneHundred)
+            temp = topOndeHundred
+            temp.remove(password) #temp is topOneHundred without the input password. use temp instead of topOneHundred
+            
             mutateset = random.sample(topOneHundred,random.randint(3,8))
             for i in range(len(mutateset)):
                 honeywords.extend(part1Algo(mutateset[i],random.randint(2,15))) # Adding clusters
@@ -141,7 +145,8 @@ def part2Algo(password, n, outputFile, myDataSet, topOneHundred):
                 if len(honeywords)==n:
                     break
         elif n==100:
-            honeywords = topOneHundred
+            for topWord in topOneHundred:
+              honeywords.append(topWord)
         else: # when n is less than 100
             honeywords.append(password)
             temp = topOneHundred
