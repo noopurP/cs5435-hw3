@@ -126,7 +126,7 @@ def part1Algo(password, n):
     random.shuffle(honeywords)
     return honeywords
 
-def part2Algo(password, n, outputFile, myDataSet, topOneHundred, myDataArray):
+def part2Algo(password, n, outputFile, myDataSet, topOneHundred):
     honeywords = []
     if password in topOneHundred:
         if n > 100: # Building clusters
@@ -151,21 +151,26 @@ def part2Algo(password, n, outputFile, myDataSet, topOneHundred, myDataArray):
     
     else: # when it isnt part of topOneHundred
         honeywords = part1Algo(password, n)
-    
-    return random.shuffle(honeywords)
+    random.shuffle(honeywords)
+    toPrint = ""
+    for i in honeywords:
+        toPrint = toPrint + i +", "
+    toPrint = toPrint[:len(toPrint)-2]
+    outputFile.write(toPrint +"\n")
+
 
 #python your_program.py n input_filename output_filename
-def main1(argv):
+def main():
     #get the arguments passed in
-    n = int(argv[0])
-    inputFilename = argv[1]
-    outputFilename = argv[2]
+    n = int(sys.argv[1])
+    inputFilename = sys.argv[2]
+    outputFilename = sys.argv[3]
+
     inputFile = open(inputFilename, "r")
     outputFile = open(outputFilename, "w")
     myDataSet =set({})
     topOneHundred = set({})
-    myDataArray = [] #we need the order of passwords to create the window
-    #add the whole training set to this set
+    #add the top 100 passwords to this set
     f = open("rockyou-withcount.txt","r")
     allLines = f.readlines()
     for i in range(len(allLines)):
@@ -175,7 +180,6 @@ def main1(argv):
         for j in range(1, len(thisArray)):
             password = password+thisArray[j].strip()
         myDataSet.add(password)
-        myDataArray.append(password)
         if i <100:
             topOneHundred.add(password)
     #read each password from the input file and call function on it to generate honey
@@ -184,7 +188,7 @@ def main1(argv):
         print password
         if not password: break
         password = password.splitlines()[0] #remove newline char from password
-        honeywords = part2Algo(password, n, outputFile, myDataSet,topOneHundred, myDataArray)
+        honeywords = part2Algo(password, n, outputFile, myDataSet,topOneHundred)
         print honeywords
         print ""
-#if __name__ == "__main__": main()
+if __name__ == "__main__": main()
