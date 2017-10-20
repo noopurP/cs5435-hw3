@@ -14,7 +14,7 @@ def part3Algo(password, n, outputFile, myDataSet, topOneHundred, myDataArray):
     honeywords = []
     if password in myDataSet:
         if password in topOneHundred:
-            honeywords = part2Algo()
+            honeywords = part2Algo(password, n, myDataSet, topOneHundred)
         else:
             honeywords = createWindow(password, n, myDataArray)
     else:
@@ -51,8 +51,34 @@ def createWindow(password, n, myDataArray):
             honeywords.append(myDataArray[i])
     return honeywords
 
-def part2Algo():
-    return ["part 2"]
+def part2Algo(password, n, myDataSet, topOneHundred):
+    honeywords = []
+    if password in topOneHundred:
+        if n > 100: # Building clusters
+            honeywords.append(password)
+            mutateset = random.sample(topOneHundred,random.randint(3,8))
+            for i in range(len(mutateset)):
+                honeywords.extend(part1Algo(mutateset[i],random.randint(2,15))) # Adding clusters
+            while True: # Adding other randomly chosen from topOneHundred
+                idx = random.randint(0,100)
+                if topOneHundred not in honeywords:
+                    honeywords.append(topOneHundred)
+                if len(honeywords)==n:
+                    break
+        elif n==100:
+            honeywords = topOneHundred
+        else: # when n is less than 100
+            honeywords.append(password)
+            temp = topOneHundred
+            temp.remove(password)
+            myset = random.sample(temp,n-1) # Adding other randomly chosen from topOneHundred
+            honeywords.extend(myset) 
+    
+    else: # when it isnt part of topOneHundred
+        honeywords = part1Algo(password, n)
+    random.shuffle(honeywords)
+    return honeywords
+
 
 def part1Algo(password, n):
    #generate honeywords and append them to outputFile
