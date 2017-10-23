@@ -126,7 +126,7 @@ def part1Algo(password, n):
     random.shuffle(honeywords)
     return honeywords
 
-def part2Algo(password, n, outputFile, myDataSet, topOneHundred, myDataArray):
+def part2Algo(password, n, outputFile, myDataSet, topOneHundred):
     honeywords = []
     if password in topOneHundred:
         if n > 100: # Building clusters
