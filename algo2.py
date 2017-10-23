@@ -126,42 +126,43 @@ def part1Algo(password, n):
     random.shuffle(honeywords)
     return honeywords
 
-def part2Algo(password, n, outputFile, myDataSet, topOneHundred):
+def part2Algo(password, n, outputFile, myDataSet, topOneHundred, myDataArray):
     honeywords = []
     if password in topOneHundred:
         if n > 100: # Building clusters
-            for topWord in topOneHundred: #put all top onehundred in honeywords
-              honeywords.append(topOneHundred)
-            temp = topOndeHundred
-            temp.remove(password) #temp is topOneHundred without the input password. use temp instead of topOneHundred
             
-            mutateset = random.sample(topOneHundred,random.randint(3,8))
+            honeywords.extend(topOneHundred)
+            listtopHundred = list(topOneHundred)
+            mutateset = random.sample(topOneHundred, random.randint(3,12))
+            addWords = []
+            num = (n-100)/5
+            if num < 1:
+                num = 1
             for i in range(len(mutateset)):
-                honeywords.extend(part1Algo(mutateset[i],random.randint(2,15))) # Adding clusters
-            while True: # Adding other randomly chosen from topOneHundred
-                idx = random.randint(0,100)
-                if topOneHundred not in honeywords:
-                    honeywords.append(topOneHundred)
-                if len(honeywords)==n:
-                    break
-        elif n==100:
-            for topWord in topOneHundred:
-              honeywords.append(topWord)
-        else: # when n is less than 100
+                addWords.extend(part1Algo(mutateset[i],num))
+            random.shuffle(addWords)
+            for i in range(0,n-100): # think n = 101 and n = 300 edge cases
+                honeywords.append(addWords[i])
+            
+        elif n == 100:
+            honeywords = list(topOneHundred)
+        elif n < 100: # when n is less than 100
             honeywords.append(password)
-            temp = topOneHundred
+            temp = set(topOneHundred)
             temp.remove(password)
             myset = random.sample(temp,n-1) # Adding other randomly chosen from topOneHundred
-            honeywords.extend(myset) 
+            honeywords.extend(list(myset)) 
     
     else: # when it isnt part of topOneHundred
         honeywords = part1Algo(password, n)
+    
     random.shuffle(honeywords)
     toPrint = ""
     for i in honeywords:
-        toPrint = toPrint + i +", "
+        toPrint = toPrint + i+", "
     toPrint = toPrint[:len(toPrint)-2]
     outputFile.write(toPrint +"\n")
+    return honeywords
 
 
 #python your_program.py n input_filename output_filename
@@ -194,6 +195,5 @@ def main():
         if not password: break
         password = password.splitlines()[0] #remove newline char from password
         honeywords = part2Algo(password, n, outputFile, myDataSet,topOneHundred)
-        print honeywords
-        print ""
+        
 if __name__ == "__main__": main()
