@@ -133,9 +133,10 @@ def part2Algo(password, n, outputFile, myDataSet, topOneHundred):
             
             honeywords.extend(topOneHundred)
             listtopHundred = list(topOneHundred)
-            mutateset = random.sample(topOneHundred, random.randint(3,12))
+            x = random.randint(3,12)
+            mutateset = random.sample(topOneHundred, )
             addWords = []
-            num = (n-100)/5
+            num = (n-100)/x
             if num < 1:
                 num = 1
             for i in range(len(mutateset)):
